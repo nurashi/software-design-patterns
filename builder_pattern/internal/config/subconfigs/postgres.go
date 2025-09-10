@@ -41,7 +41,6 @@ func (b *PostgreSQLBuilder) SetUser(user string) *PostgreSQLBuilder {
 }
 
 
-
 func (b *PostgreSQLBuilder) SetPassword(password string) *PostgreSQLBuilder {
 	b.db.Password = password
 	return b
