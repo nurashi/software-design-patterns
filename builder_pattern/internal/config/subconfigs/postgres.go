@@ -1,8 +1,6 @@
 package subconfigs 
 
-
-
-
+// PostgreSQL holds database connection configuration.
 type PostgreSQL struct {
 	Host     string
 	Port     int
@@ -12,16 +10,18 @@ type PostgreSQL struct {
 }
 
 
-
-
+// PostgreSQLBuilder provides a fluent way to build PostgreSQL configuration.
 type PostgreSQLBuilder struct {
 	db PostgreSQL
 }
 
+// NewPostgreSQLBuilder creates and returns a new instance of PostgreSQLBuilder
 func NewPostgreSQLBuilder() *PostgreSQLBuilder {
 	return &PostgreSQLBuilder{}
 }
 
+
+// then settts of particular fileds.
 func (b *PostgreSQLBuilder) SetHost(host string) *PostgreSQLBuilder {
 	b.db.Host = host
 	return b
@@ -52,6 +52,7 @@ func (b *PostgreSQLBuilder) SetName(name string) *PostgreSQLBuilder {
 }
 
 
+// Build - calls after setting needed fields, and finishes the PosgreSQL Configuration
 func (b *PostgreSQLBuilder) Build() PostgreSQL {
 	return b.db
 }

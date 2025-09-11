@@ -2,20 +2,22 @@ package config
 
 import "github.com/nurashi/software-design-patterns/builder_pattern/internal/config/subconfigs"
 
+// Config aggregates application-level configuration for OpenRouter, Database, Telegram
 type Config struct {
 	OpenRouter subconfigs.OpenRouter
 	Database   subconfigs.PostgreSQL
 	Telegram   subconfigs.Telegram
 }
 
+// ConfigBuilder provides a fluent way to build a Config instance.
 type ConfigBuilder struct {
 	cfg Config
 }
 
+// NewConfigBuilder returns a new ConfigBuilder.
 func NewConfigBuilder() *ConfigBuilder {
 	return &ConfigBuilder{}
 }
-
 func (b *ConfigBuilder) SetDatabase(db subconfigs.PostgreSQL) *ConfigBuilder {
 	b.cfg.Database = db
 	return b
@@ -31,6 +33,7 @@ func (b *ConfigBuilder) SetOpenRouter(or subconfigs.OpenRouter) *ConfigBuilder {
 	return b
 }
 
+// Build returns the configured Config instance.
 func (b *ConfigBuilder) Build() Config {
 	return b.cfg
 }
