@@ -24,27 +24,3 @@ func main() {
 	fmt.Println(tg.Send("@nurashi", "Hello"))
 }
 
-
-/*
-           ┌─────────────────────────┐
-           │    Notification         │
-           │  + Send(to,msg):string  │
-           └───────────▲────────────┘
-                       │
- ┌─────────────────────┼──────────────────────┐
- │                     │                      │
- │                     │                      │
- ▼                     ▼                      ▼
-EmailNotification   SMSNotification    TelegramNotification
-
-
-         ┌────────────────────────────┐
-         │   NotificationFactory      │
-         │  + CreateNotification()    │
-         └───────────▲────────────────┘
-                     │
-   ┌─────────────────┼───────────────────┐
-   │                 │                   │
-   ▼                 ▼                   ▼
-EmailFactory      SMSFactory       TelegramFactory
-*/
