@@ -2,6 +2,7 @@ package notification
 
 import "fmt"
 
+// Concrete product
 type EmailNotification struct{}
 
 func (e EmailNotification) Send(to string, message string) string {
