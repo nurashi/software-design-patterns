@@ -4,25 +4,25 @@ import "github.com/nurashi/software-design-patterns/internal/notification"
 
 
 // its a contract for factories
-// EmailFactory -> EmailNotification
-// SMSFactory -> SMSNotification 
-// TelegramFactory -> TelegramNotification 
 type NotificationFactory interface {
 	CreateNotification() notification.Notification
 }
 
+// EmailFactory -> EmailNotification
 type EmailFactory struct{}
 
 func (f EmailFactory) CreateNotification() notification.Notification {
 	return notification.EmailNotification{}
 }
 
+// SMSFactory -> SMSNotification 
 type SMSFactory struct{}
 
 func (f SMSFactory) CreateNotification() notification.Notification {
 	return notification.SMSNotification{}
 }
 
+// TelegramFactory -> TelegramNotification 
 type TelegramFactory struct{}
 
 func (f TelegramFactory) CreateNotification() notification.Notification {
