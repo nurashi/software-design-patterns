@@ -1,5 +1,6 @@
 package wallet
 
+// CreateWallet is a tiny factory that returns a Wallet by type.
 func CreateWallet(walletType, owner string) Wallet {
 	switch walletType {
 	case "hot":

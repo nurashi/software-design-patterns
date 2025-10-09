@@ -9,6 +9,6 @@ func (v *SizeCalculatorVisitor) VisitFile(f *File) {
 	v.Total += f.Size
 }
 
-func (v *SizeCalculatorVisitor) VisitDirectory(d *Directory) {
-	// No specific logic for directory itself
-}
+
+// at this particular case logic is not needed, for simplicity
+func (v *SizeCalculatorVisitor) VisitDirectory(d *Directory) {}

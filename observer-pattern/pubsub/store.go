@@ -4,7 +4,7 @@ import "fmt"
 
 // Store is a concrete publisher that notifies customers when a new product arrives
 type Store struct {
-	Publisher
+	Publisher // composition
 	Name string
 }
 

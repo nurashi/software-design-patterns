@@ -4,7 +4,7 @@ import "fmt"
 
 // Customer is a concrete subscriber
 type Customer struct {
-	Name string
+	Name string 
 }
 
 // Update is called when store notifies about new products
