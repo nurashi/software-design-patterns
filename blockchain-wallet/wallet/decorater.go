@@ -2,37 +2,33 @@ package wallet
 
 import "fmt"
 
-// WalletDecorator wraps another Wallet to extend behavior.
+// WalletDecorator wraps wallet functionality
 type WalletDecorator struct {
 	Wrapped Wallet
 }
 
-// MFAWalletDecorator adds a simple MFA step before sending.
+// MFAWalletDecorator adds multi-factor authentication before sending
 type MFAWalletDecorator struct {
 	WalletDecorator
 	Method string
 }
 
-// NewMFAWallet constructs an MFA decorator around a Wallet.
-func NewMFAWallet(w Wallet, method string) Wallet {
-	return &MFAWalletDecorator{
-		WalletDecorator{Wrapped: w},
-		method,
-	}
-}
-
-// Send performs an MFA check then delegates to the wrapped wallet.
-func (m *MFAWalletDecorator) Send(receiver string, amount float64) *Transaction {
-	fmt.Printf("Performing MFA (%s)... verified.\n", m.Method)
+func (m *MFAWalletDecorator) Send(receiver string, amount float64) Transaction {
+	fmt.Printf("[MFA] Authenticating via %s...\n", m.Method)
 	return m.Wrapped.Send(receiver, amount)
 }
 
-// SetFeeStrategy delegates to the wrapped wallet.
-func (m *MFAWalletDecorator) SetFeeStrategy(s FeeStrategy) {
-	m.Wrapped.SetFeeStrategy(s)
+// Forwarding methods so decorators satisfy Wallet interface by delegating
+// calls to the wrapped wallet implementation.
+func (w *WalletDecorator) SetFeeStrategy(strategy FeeStrategy) {
+	if w.Wrapped != nil {
+		w.Wrapped.SetFeeStrategy(strategy)
+	}
 }
 
-// GetOwner delegates to the wrapped wallet.
-func (m *MFAWalletDecorator) GetOwner() string {
-	return m.Wrapped.GetOwner()
+func (w *WalletDecorator) GetOwner() string {
+	if w.Wrapped != nil {
+		return w.Wrapped.GetOwner()
+	}
+	return ""
 }

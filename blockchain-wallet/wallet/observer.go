@@ -2,37 +2,31 @@ package wallet
 
 import "fmt"
 
-// Observer receives transaction updates.
+// Observer interface defines how listeners react to transaction events
 type Observer interface {
-	Update(tx *Transaction)
+	Update(tx Transaction)
 }
 
-// Subject can register observers and notify them.
-type Subject interface {
-	Register(o Observer)
-	Notify(tx *Transaction)
-}
-
-// TransactionNotifier holds observers and notifies on new transactions.
-type TransactionNotifier struct {
+// Subject manages observers
+type Subject struct {
 	observers []Observer
 }
 
-// Register adds an observer to the notifier.
-func (n *TransactionNotifier) Register(o Observer) {
-	n.observers = append(n.observers, o)
+// Register adds new observer
+func (s *Subject) Register(o Observer) {
+	s.observers = append(s.observers, o)
 }
 
-// Notify informs all registered observers about a transaction.
-func (n *TransactionNotifier) Notify(tx *Transaction) {
-	for _, o := range n.observers {
+// Notify informs all observers about transaction
+func (s *Subject) Notify(tx Transaction) {
+	for _, o := range s.observers {
 		o.Update(tx)
 	}
 }
 
-// LoggerObserver logs transaction updates to stdout.
+// LoggerObserver logs new transactions
 type LoggerObserver struct{}
 
-func (LoggerObserver) Update(tx *Transaction) {
-	fmt.Println("Logger: transaction confirmed ", tx)
+func (l LoggerObserver) Update(tx Transaction) {
+	fmt.Println("[Logger] New transaction confirmed:", tx.String())
 }

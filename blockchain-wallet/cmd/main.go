@@ -5,19 +5,17 @@ import (
 )
 
 func main() {
-	facade := wallet.NewWalletFacade()
+	// Setup facade with adapter network
+	network := &wallet.NetworkAdapter{ThirdParty: &wallet.ThirdPartyNetwork{}}
+	facade := wallet.WalletFacade{Network: network}
 
-	w := facade.CreateWallet("Nurasyl", "hot")
+	// Create and decorate wallet
+	base := facade.CreateWallet("Nurasyl", "hot")
+	mfaWallet := &wallet.MFAWalletDecorator{WalletDecorator: wallet.WalletDecorator{Wrapped: base}, Method: "Email"}
 
-	// Decorator for MFA
-	w = wallet.NewMFAWallet(w, "email")
-
-	// Strategy for Bitcoin
-	w.SetFeeStrategy(wallet.BitcoinFeeStrategy{})
-
-	// Observer
+	// Subscribe logger observer
 	facade.Subscribe(wallet.LoggerObserver{})
 
-	// Send
-	facade.SendTransaction(w, "receiver123", 10.0)
+	// Perform transaction
+	facade.SendTransaction(mfaWallet, "Alice", 50.0)
 }

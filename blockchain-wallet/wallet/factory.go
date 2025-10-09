@@ -1,13 +1,18 @@
 package wallet
 
-// CreateWallet is a tiny factory that returns a Wallet by type.
-func CreateWallet(walletType, owner string) Wallet {
+// WalletFactory creates wallets based on type
+type WalletFactory struct{}
+
+// CreateWallet returns wallet instance by type
+func (f WalletFactory) CreateWallet(walletType, owner string) Wallet {
 	switch walletType {
 	case "hot":
-		return &BaseWallet{Owner: owner}
+		w := &BaseWallet{Owner: owner, FeeStrategy: BitcoinFeeStrategy{}}
+		return w
 	case "cold":
-		return &BaseWallet{Owner: owner}
+		w := &BaseWallet{Owner: owner, FeeStrategy: EthereumFeeStrategy{}}
+		return w
 	default:
-		return &BaseWallet{Owner: owner}
+		return nil
 	}
 }

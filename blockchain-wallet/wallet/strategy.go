@@ -1,22 +1,20 @@
 package wallet
 
-// FeeStrategy calculates a fee for a given amount.
+// FeeStrategy defines interface for transaction fee calculation
 type FeeStrategy interface {
 	Calculate(amount float64) float64
 }
 
-// BitcoinFeeStrategy charges 2%.
+// BitcoinFeeStrategy applies BTC-specific fees
 type BitcoinFeeStrategy struct{}
 
-// EthereumFeeStrategy charges 1%.
-type EthereumFeeStrategy struct{}
-
-// Calculate implements FeeStrategy for Bitcoin fees.
-func (BitcoinFeeStrategy) Calculate(amount float64) float64 {
-	return amount * 0.02 // 2%
+func (b BitcoinFeeStrategy) Calculate(amount float64) float64 {
+	return amount * 0.02 // 2% fee
 }
 
-// Calculate implements FeeStrategy for Ethereum fees.
-func (EthereumFeeStrategy) Calculate(amount float64) float64 {
-	return amount * 0.01 // 1%
+// EthereumFeeStrategy applies ETH-specific fees
+type EthereumFeeStrategy struct{}
+
+func (e EthereumFeeStrategy) Calculate(amount float64) float64 {
+	return amount * 0.015 // 1.5% fee
 }
